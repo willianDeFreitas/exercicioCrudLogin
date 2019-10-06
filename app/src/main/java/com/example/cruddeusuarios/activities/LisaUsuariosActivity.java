@@ -26,7 +26,7 @@ public class LisaUsuariosActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_lisa_usuarios);
+        setContentView(R.layout.activity_lista_usuarios);
         buscaDados();
     }
 
@@ -43,7 +43,7 @@ public class LisaUsuariosActivity extends AppCompatActivity {
         String token = sp.getString("token",null);
         //#
 
-        RetrofitService.getServico(this).todosUsuarios("Bearer" + token).enqueue(new Callback<List<DtoUser>>() {
+        RetrofitService.getServico(this).todosUsuarios("Bearer "+token).enqueue(new Callback<List<DtoUser>>() {
             @Override
             public void onResponse(Call<List<DtoUser>> call, Response<List<DtoUser>> response) {
                 List<DtoUser> lista = response.body();

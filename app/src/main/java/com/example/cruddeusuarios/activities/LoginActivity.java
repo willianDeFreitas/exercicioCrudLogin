@@ -45,6 +45,7 @@ public class LoginActivity extends AppCompatActivity {
                 SharedPreferences sp = getSharedPreferences("dados", 0);
                 SharedPreferences.Editor editor = sp.edit();
                 editor.putString("token",token);
+                editor.apply();
 
                 startActivity(new Intent(LoginActivity.this, MainActivity.class));
             }
