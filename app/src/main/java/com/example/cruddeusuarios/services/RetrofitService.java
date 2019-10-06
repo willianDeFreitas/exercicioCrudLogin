@@ -17,7 +17,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class RetrofitService {
 
     private static Context context;
-    private String baseUrl = "https://projeto-integrador-4.herokuapp.com";
+    private String baseUrl = "https://testeexercicio03102019.herokuapp.com";
+    //private String baseUrl = "https://projeto-integrador-4.herokuapp.com";//usado em aula
     private InterfaceDeServicos api;
     private static RetrofitService instancia;
 
