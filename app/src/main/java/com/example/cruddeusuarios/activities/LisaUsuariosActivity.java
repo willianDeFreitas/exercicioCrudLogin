@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.example.cruddeusuarios.R;
 import com.example.cruddeusuarios.dto.DtoUser;
@@ -46,8 +47,13 @@ public class LisaUsuariosActivity extends AppCompatActivity {
         RetrofitService.getServico(this).todosUsuarios("Bearer "+token).enqueue(new Callback<List<DtoUser>>() {
             @Override
             public void onResponse(Call<List<DtoUser>> call, Response<List<DtoUser>> response) {
-                List<DtoUser> lista = response.body();
-                preencheRecyclerview(lista);
+                if (response.isSuccessful()){
+                    List<DtoUser> lista = response.body();
+                    preencheRecyclerview(lista);
+                } else {
+                    Toast.makeText(LisaUsuariosActivity.this, "sE FUDEU!!!", Toast.LENGTH_LONG).show();
+                    onFailure(call, new Exception());
+                }
             }
 
             @Override

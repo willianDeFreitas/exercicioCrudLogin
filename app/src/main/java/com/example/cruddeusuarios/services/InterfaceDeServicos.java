@@ -21,4 +21,7 @@ public interface InterfaceDeServicos {
 
     @GET("/users")
     Call<List<DtoUser>> todosUsuarios(@Header("Authorization") String authorization);
+
+    @GET("/users/{id}")
+    Call<List<DtoUser>> buscaUsuario(@Header("Authorization") String authorization);
 }
