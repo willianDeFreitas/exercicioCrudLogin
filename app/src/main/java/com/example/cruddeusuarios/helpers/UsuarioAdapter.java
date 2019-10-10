@@ -1,6 +1,7 @@
 package com.example.cruddeusuarios.helpers;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.cruddeusuarios.R;
+import com.example.cruddeusuarios.activities.AlteracaoUsuarioActivity;
 import com.example.cruddeusuarios.dto.DtoUser;
 
 import java.util.List;
@@ -44,7 +46,7 @@ public class UsuarioAdapter extends RecyclerView.Adapter<UsuarioAdapter.UsuarioH
         return lista.size();
     }
 
-    public class UsuarioHolder extends RecyclerView.ViewHolder {
+    public class UsuarioHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         final UsuarioAdapter usuarioAdapter;
         public final TextView nome;
 
@@ -52,7 +54,22 @@ public class UsuarioAdapter extends RecyclerView.Adapter<UsuarioAdapter.UsuarioH
             super(itemView);
             this.usuarioAdapter = usuarioAdapter;
             nome = itemView.findViewById(R.id.tv_recyclerview_nome_usuario);
+            itemView.setOnClickListener(this);
         }
 
+        @Override
+        public void onClick(View v) {
+            DtoUser user = lista.get(getLayoutPosition());
+            String nome = user.getName();
+            int id = user.getId();
+            String email = user.getEmail();
+            String tel = user.getPhone();
+            Intent intent = new Intent(context, AlteracaoUsuarioActivity.class);
+            intent.putExtra("id",id);
+            intent.putExtra("nome",nome);
+            intent.putExtra("email",email);
+            intent.putExtra("tel",tel);
+            context.startActivity(intent);
+        }
     }
 }

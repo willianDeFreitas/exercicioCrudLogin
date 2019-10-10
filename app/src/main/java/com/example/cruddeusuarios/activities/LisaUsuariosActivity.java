@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -51,7 +52,7 @@ public class LisaUsuariosActivity extends AppCompatActivity {
                     List<DtoUser> lista = response.body();
                     preencheRecyclerview(lista);
                 } else {
-                    Toast.makeText(LisaUsuariosActivity.this, "sE FUDEU!!!", Toast.LENGTH_LONG).show();
+                    startActivity(new Intent(LisaUsuariosActivity.this, LoginActivity.class));
                     onFailure(call, new Exception());
                 }
             }

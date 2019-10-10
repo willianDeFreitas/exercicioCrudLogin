@@ -1,10 +1,10 @@
 package com.example.cruddeusuarios.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
+
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -13,10 +13,7 @@ import android.widget.Toast;
 
 import com.example.cruddeusuarios.R;
 import com.example.cruddeusuarios.dto.DtoUser;
-import com.example.cruddeusuarios.helpers.UsuarioAdapter;
 import com.example.cruddeusuarios.services.RetrofitService;
-
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -26,18 +23,26 @@ public class AlteracaoUsuarioActivity extends AppCompatActivity {
 
     public static final String TAG = "AlteracaoUsuarioActivity";
 
+    EditText et_nome, et_email, et_telefone;
+    int id;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alteracao_usuario);
-        buscaDadosParaPreenchimento();
-    }
+        Intent intent = getIntent();
+        id = intent.getIntExtra("id", -1);
+        String nome = intent.getStringExtra("nome");
+        String email = intent.getStringExtra("email");
+        String telefone = intent.getStringExtra("telefone");
 
-    private void preencheFormulario(List<DtoUser> lista){
-        RecyclerView mRecyclerView = findViewById(R.id.rv_todos_usuarios);
-        UsuarioAdapter mAdapter = new UsuarioAdapter(this, lista);
-        mRecyclerView.setAdapter(mAdapter);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        et_email = findViewById(R.id.et_altera_usuario_email);
+        et_nome = findViewById(R.id.et_altera_usuario_nome);
+        et_telefone = findViewById(R.id.et_altera_usuario_telefone);
+
+        et_email.setText(email);
+        et_nome.setText(nome);
+        et_telefone.setText(telefone);
     }
 
     public void alterar(View view) {
@@ -46,12 +51,23 @@ public class AlteracaoUsuarioActivity extends AppCompatActivity {
         String email = ((EditText)findViewById(R.id.et_cadastro_usuario_email)).getText().toString();
         String senha = ((EditText)findViewById(R.id.et_cadastro_usuario_password)).getText().toString();
 
-        DtoUser dtoUser =  new DtoUser(email, nome, senha, telefone);
+        DtoUser dtoUser;
 
-        RetrofitService.getServico(this).cadastraUsuario(dtoUser).enqueue(new Callback<DtoUser>() {
+        if ( senha.isEmpty()){
+            dtoUser = new DtoUser(email, nome, telefone);
+        } else {
+            dtoUser = new DtoUser(email,nome,senha, telefone);
+        }
+        String token = getToken();
+
+        RetrofitService.getServico(this).alteraUsuario(dtoUser, id, "Bearer " + token).enqueue(new Callback<DtoUser>() {
             @Override
             public void onResponse(Call<DtoUser> call, Response<DtoUser> response) {
-                Toast.makeText(AlteracaoUsuarioActivity.this, "Usuário cadastrado com ID: " + response.body().getId(), Toast.LENGTH_LONG).show();
+                if(response.code() == 200){
+                    Toast.makeText(AlteracaoUsuarioActivity.this, "Usuário alterado com sucesso", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(AlteracaoUsuarioActivity.this, "Erro: " + response.code(), Toast.LENGTH_LONG).show();
+                }
             }
 
             @Override
@@ -61,26 +77,8 @@ public class AlteracaoUsuarioActivity extends AppCompatActivity {
         });
     }
 
-
-
-    private void buscaDadosParaPreenchimento(){
-        //# Rercuperando token salvo na activity de login
-        SharedPreferences sp = getSharedPreferences("dados", 0);
-        String token = sp.getString("token",null);
-        //#
-
-        RetrofitService.getServico(this).buscaUsuario("Bearer "+token).enqueue(new Callback<List<DtoUser>>() {
-            @Override
-            public void onResponse(Call<List<DtoUser>> call, Response<List<DtoUser>> response) {
-                List<DtoUser> lista = response.body();
-                preencheFormulario(lista);
-            }
-
-            @Override
-            public void onFailure(Call<List<DtoUser>> call, Throwable t) {
-                Log.d(TAG, "onFailure: " + t.getMessage());
-            }
-        });
+    private String getToken() {
+        SharedPreferences sp = getSharedPreferences("dados",0);
+        return sp.getString("token",null);
     }
-
 }

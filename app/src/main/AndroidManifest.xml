@@ -14,13 +14,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".activities.ExcluirUsuarioActivity"
-            android:label="Excluir usuário"
-            android:parentActivityName=".activities.MainActivity">
-            <meta-data android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activities.MainActivity"/>
-        </activity>
-        <activity
             android:name=".activities.AlteracaoUsuarioActivity"
             android:label="Alterar de usuário"
             android:parentActivityName=".activities.MainActivity">

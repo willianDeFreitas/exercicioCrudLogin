@@ -35,15 +35,9 @@ public class MainActivity extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
 
         switch (item.getItemId()){
-            case R.id.action_alteracao_usuario:
-                //navegar para activity(new Intent(desta classe, para outra Activity)
-                startActivity(new Intent(this, AlteracaoUsuarioActivity.class));
-                return true;
             case R.id.action_cadastro_de_usuario:
+                //navegar para activity(new Intent(desta classe, para outra Activity)
                 startActivity(new Intent(this, CadastroDeUsuarioActivity.class));
-                return true;
-            case R.id.action_excluir_usuario:
-                startActivity(new Intent(this, ExcluirUsuarioActivity.class));
                 return true;
             case R.id.action_lista_usuarios:
                 startActivity(new Intent(this, LisaUsuariosActivity.class));

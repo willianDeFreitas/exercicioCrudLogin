@@ -8,6 +8,12 @@ public class DtoUser {
     private String password;
     private String phone;
 
+    public DtoUser(String email, String name, String phone) {
+        this.email = email;
+        this.name = name;
+        this.phone = phone;
+    }
+
     public DtoUser(String email, String name, String password, String phone) {
         this.email = email;
         this.name = name;

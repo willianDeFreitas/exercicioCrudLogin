@@ -10,6 +10,8 @@ import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
+import retrofit2.http.Path;
 
 public interface InterfaceDeServicos {
 
@@ -24,4 +26,7 @@ public interface InterfaceDeServicos {
 
     @GET("/users/{id}")
     Call<List<DtoUser>> buscaUsuario(@Header("Authorization") String authorization);
+
+    @PUT("/users/{id}")
+    Call<DtoUser> alteraUsuario(@Body DtoUser user, @Path("id") int id, @Header("Authorization") String authorizatio);
 }
