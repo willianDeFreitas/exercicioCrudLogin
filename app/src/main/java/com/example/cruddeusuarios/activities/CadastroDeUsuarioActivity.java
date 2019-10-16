@@ -2,6 +2,7 @@ package com.example.cruddeusuarios.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -34,10 +35,15 @@ public class CadastroDeUsuarioActivity extends AppCompatActivity {
 
         DtoUser dtoUser =  new DtoUser(email, nome, senha, telefone);
 
-        RetrofitService.getServico(this).cadastraUsuario(dtoUser).enqueue(new Callback<DtoUser>() {
+        RetrofitService.getServico().cadastraUsuario(dtoUser).enqueue(new Callback<DtoUser>() {
             @Override
             public void onResponse(Call<DtoUser> call, Response<DtoUser> response) {
-                Toast.makeText(CadastroDeUsuarioActivity.this, "Usuário cadastrado com ID: " + response.body().getId(), Toast.LENGTH_LONG).show();
+                if (response.isSuccessful()) {
+                    Toast.makeText(CadastroDeUsuarioActivity.this, "Usuário cadastrado com ID: " + response.body().getId(), Toast.LENGTH_LONG).show();
+                    startActivity(new Intent(CadastroDeUsuarioActivity.this, MainActivity.class));
+                } else {
+                    Toast.makeText(CadastroDeUsuarioActivity.this, "Problemas ao cadastratrar usuário ", Toast.LENGTH_LONG).show();
+                }
             }
 
             @Override

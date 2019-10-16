@@ -36,18 +36,25 @@ public class LoginActivity extends AppCompatActivity {
         dtoLogin.setEmail(email);
         dtoLogin.setPassword(senha);
 
-        RetrofitService.getServico(this).login(dtoLogin).enqueue(new Callback<DtoLogin>() {
+        RetrofitService.getServico().login(dtoLogin).enqueue(new Callback<DtoLogin>() {
             @Override
             public void onResponse(Call<DtoLogin> call, Response<DtoLogin> response) {
-                String token = response.body().getToken();
-                Toast.makeText(LoginActivity.this, "Usuário Logado", Toast.LENGTH_SHORT).show();
+                if (response.isSuccessful()){
+                    String token = response.body().getToken();
+                    Toast.makeText(LoginActivity.this, "Usuário Logado", Toast.LENGTH_SHORT).show();
 
-                SharedPreferences sp = getSharedPreferences("dados", 0);
-                SharedPreferences.Editor editor = sp.edit();
-                editor.putString("token",token);
-                editor.apply();
+                    SharedPreferences sp = getSharedPreferences("dados", 0);
+                    SharedPreferences.Editor editor = sp.edit();
+                    editor.putString("token",token);
+                    editor.apply();
 
-                startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                } else {
+                    Toast.makeText(LoginActivity.this, "Login Falhou", Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(LoginActivity.this, LoginActivity.class));
+                    onFailure(call, new Exception());
+                }
+
             }
 
             @Override

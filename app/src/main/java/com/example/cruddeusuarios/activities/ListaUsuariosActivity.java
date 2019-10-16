@@ -1,6 +1,7 @@
 package com.example.cruddeusuarios.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -11,6 +12,7 @@ import android.util.Log;
 
 import com.example.cruddeusuarios.R;
 import com.example.cruddeusuarios.dto.DtoUser;
+import com.example.cruddeusuarios.helpers.SwipeToDeleteCallback;
 import com.example.cruddeusuarios.helpers.UsuarioAdapter;
 import com.example.cruddeusuarios.services.RetrofitService;
 
@@ -36,6 +38,9 @@ public class ListaUsuariosActivity extends AppCompatActivity {
         UsuarioAdapter mAdapter = new UsuarioAdapter(this, lista);
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        ItemTouchHelper itemTouchHelper = new
+                ItemTouchHelper(new SwipeToDeleteCallback(mAdapter));
+        itemTouchHelper.attachToRecyclerView(mRecyclerView);
     }
 
     private void buscaDados(){
@@ -44,10 +49,10 @@ public class ListaUsuariosActivity extends AppCompatActivity {
         String token = sp.getString("token",null);
         //#
 
-        RetrofitService.getServico(this).todosUsuarios("Bearer "+token).enqueue(new Callback<List<DtoUser>>() {
+        RetrofitService.getServico().todosUsuarios("Bearer "+token).enqueue(new Callback<List<DtoUser>>() {
             @Override
             public void onResponse(Call<List<DtoUser>> call, Response<List<DtoUser>> response) {
-                if (response.isSuccessful()){
+                if (response.isSuccessful()) {
                     List<DtoUser> lista = response.body();
                     preencheRecyclerview(lista);
                 } else {

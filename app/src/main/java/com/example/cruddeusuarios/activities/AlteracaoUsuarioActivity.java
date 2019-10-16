@@ -60,7 +60,7 @@ public class AlteracaoUsuarioActivity extends AppCompatActivity {
         }
         String token = getToken();
 
-        RetrofitService.getServico(this).alteraUsuario(dtoUser, id, "Bearer "+token).enqueue(new Callback<DtoUser>() {
+        RetrofitService.getServico().alteraUsuario(dtoUser, id, "Bearer "+token).enqueue(new Callback<DtoUser>() {
             @Override
             public void onResponse(Call<DtoUser> call, Response<DtoUser> response) {
                 if(response.code() == 200){

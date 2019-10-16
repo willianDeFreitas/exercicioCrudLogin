@@ -1,7 +1,5 @@
 package com.example.cruddeusuarios.services;
 
-import android.content.Context;
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -16,42 +14,33 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitService {
 
-    private static Context context;
     private String baseUrl = "https://testeexercicio03102019.herokuapp.com";
-    //private String baseUrl = "https://projeto-integrador-4.herokuapp.com";//usado em aula
-    private InterfaceDeServicos api;
+    private ApiEndPoint api;
     private static RetrofitService instancia;
 
     private RetrofitService() {
-        api = criaRetrofit().create(InterfaceDeServicos.class);
+        api = criaRetrofit().create(ApiEndPoint.class);
+    }
+
+    public static ApiEndPoint getServico() {
+        if (instancia == null)
+            instancia = new RetrofitService();
+        return instancia.api;
     }
 
     private Retrofit criaRetrofit() {
-
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
         logging.setLevel(HttpLoggingInterceptor.Level.BODY);
-
         OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
-        // add your other interceptors …
-        // add logging as last interceptor
-        httpClient.addInterceptor(logging);  // <-- this is the important line!
-
+        httpClient.addInterceptor(logging);
         Gson gson = new GsonBuilder()
                 .setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ")
                 .create();
-
         return new Retrofit.Builder()
                 .baseUrl(baseUrl)
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .client(httpClient.build())
                 .build();
-    }
-
-    public static InterfaceDeServicos getServico(Context context) {
-        RetrofitService.context = context;
-        if (instancia == null)
-            instancia = new RetrofitService();
-        return instancia.api;
     }
 
 }

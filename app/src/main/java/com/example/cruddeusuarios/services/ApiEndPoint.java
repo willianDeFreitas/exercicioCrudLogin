@@ -7,13 +7,14 @@ import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
 
-public interface InterfaceDeServicos {
+public interface ApiEndPoint {
 
     @POST("/users")
     Call<DtoUser> cadastraUsuario(@Body DtoUser dtoUser);
@@ -29,4 +30,7 @@ public interface InterfaceDeServicos {
 
     @PUT("/users/{id}")
     Call<DtoUser> alteraUsuario(@Body DtoUser user, @Path("id") int id, @Header("Authorization") String authorization);
+
+    @DELETE("/users/{id}")
+    Call<Void> deletaUsuario(@Path("id") Integer id, @Header("Authorization") String authorization);
 }
