@@ -34,7 +34,7 @@ public class AlteracaoUsuarioActivity extends AppCompatActivity {
         id = intent.getIntExtra("id", -1);
         String nome = intent.getStringExtra("nome");
         String email = intent.getStringExtra("email");
-        String telefone = intent.getStringExtra("telefone");
+        String telefone = intent.getStringExtra("tel");
 
         et_email = findViewById(R.id.et_altera_usuario_email);
         et_nome = findViewById(R.id.et_altera_usuario_nome);
@@ -46,10 +46,10 @@ public class AlteracaoUsuarioActivity extends AppCompatActivity {
     }
 
     public void alterar(View view) {
-        String nome = ((EditText)findViewById(R.id.et_cadastro_usuario_nome)).getText().toString();
-        String telefone = ((EditText)findViewById(R.id.et_cadastro_usuario_telefone)).getText().toString();
-        String email = ((EditText)findViewById(R.id.et_cadastro_usuario_email)).getText().toString();
-        String senha = ((EditText)findViewById(R.id.et_cadastro_usuario_password)).getText().toString();
+        String nome = ((EditText)findViewById(R.id.et_altera_usuario_nome)).getText().toString();
+        String telefone = ((EditText)findViewById(R.id.et_altera_usuario_telefone)).getText().toString();
+        String email = ((EditText)findViewById(R.id.et_altera_usuario_email)).getText().toString();
+        String senha = ((EditText)findViewById(R.id.et_altera_usuario_password)).getText().toString();
 
         DtoUser dtoUser;
 
@@ -60,11 +60,13 @@ public class AlteracaoUsuarioActivity extends AppCompatActivity {
         }
         String token = getToken();
 
-        RetrofitService.getServico(this).alteraUsuario(dtoUser, id, "Bearer " + token).enqueue(new Callback<DtoUser>() {
+        RetrofitService.getServico(this).alteraUsuario(dtoUser, id, "Bearer "+token).enqueue(new Callback<DtoUser>() {
             @Override
             public void onResponse(Call<DtoUser> call, Response<DtoUser> response) {
                 if(response.code() == 200){
                     Toast.makeText(AlteracaoUsuarioActivity.this, "Usuário alterado com sucesso", Toast.LENGTH_LONG).show();
+                    startActivity(new Intent(AlteracaoUsuarioActivity.this, ListaUsuariosActivity.class));
+                    onFailure(call, new Exception());
                 } else {
                     Toast.makeText(AlteracaoUsuarioActivity.this, "Erro: " + response.code(), Toast.LENGTH_LONG).show();
                 }

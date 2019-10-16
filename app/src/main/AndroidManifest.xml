@@ -21,7 +21,7 @@
                 android:value=".activities.MainActivity"/>
         </activity>
         <activity
-            android:name=".activities.LisaUsuariosActivity"
+            android:name=".activities.ListaUsuariosActivity"
             android:label="Lista de usuários"
             android:parentActivityName=".activities.MainActivity">
             <meta-data android:name="android.support.PARENT_ACTIVITY"

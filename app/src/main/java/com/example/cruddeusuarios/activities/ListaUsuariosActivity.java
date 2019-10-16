@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.example.cruddeusuarios.R;
 import com.example.cruddeusuarios.dto.DtoUser;
@@ -21,7 +20,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class LisaUsuariosActivity extends AppCompatActivity {
+public class ListaUsuariosActivity extends AppCompatActivity {
 
     public static final String TAG = "ListaUsuariosActivity";
 
@@ -52,7 +51,7 @@ public class LisaUsuariosActivity extends AppCompatActivity {
                     List<DtoUser> lista = response.body();
                     preencheRecyclerview(lista);
                 } else {
-                    startActivity(new Intent(LisaUsuariosActivity.this, LoginActivity.class));
+                    startActivity(new Intent(ListaUsuariosActivity.this, LoginActivity.class));
                     onFailure(call, new Exception());
                 }
             }

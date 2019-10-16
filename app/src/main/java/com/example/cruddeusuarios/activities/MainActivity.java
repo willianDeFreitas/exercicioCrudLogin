@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(this, CadastroDeUsuarioActivity.class));
                 return true;
             case R.id.action_lista_usuarios:
-                startActivity(new Intent(this, LisaUsuariosActivity.class));
+                startActivity(new Intent(this, ListaUsuariosActivity.class));
                 return true;
             case R.id.action_login:
                 startActivity(new Intent(this, LoginActivity.class));
