@@ -1,5 +1,6 @@
 package com.example.cruddeusuarios.services;
 
+import com.example.cruddeusuarios.dto.DtoCliente;
 import com.example.cruddeusuarios.dto.DtoLogin;
 import com.example.cruddeusuarios.dto.DtoUser;
 
@@ -25,8 +26,11 @@ public interface ApiEndPoint {
     @GET("/users")
     Call<List<DtoUser>> todosUsuarios(@Header("Authorization") String authorization);
 
-    @GET("/users/{id}")
-    Call<List<DtoUser>> buscaUsuario(@Header("Authorization") String authorization);
+    @GET("/clientes")
+    Call<List<DtoCliente>> buscaClientes(@Header("Authorization") String authorization);
+
+    @GET("/clientes")
+    Call<List<DtoCliente>> buscaProdutos(@Header("Authorization") String authorization);
 
     @PUT("/users/{id}")
     Call<DtoUser> alteraUsuario(@Body DtoUser user, @Path("id") int id, @Header("Authorization") String authorization);

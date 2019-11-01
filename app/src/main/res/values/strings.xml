@@ -4,4 +4,7 @@
     <string name="login">Login</string>
     <string name="senha">Senha</string>
     <string name="email">Email</string>
+    <string name="Quantidade">Quantidade</string>
+    <string name="cliente">Cliente</string>
+    <string name="Valor_venda">Valor da venda</string>
 </resources>
